@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For My Love 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Satisfy&display=swap" rel="stylesheet">
+
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(to bottom, #1a1a40, #0f0c29);
+      color: #fff;
+      font-family: 'Comfortaa', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .container {
+      z-index: 2;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100vh;
+      padding: 20px;
+      padding-bottom: 60px; /* push content up to make room for bottom slider */
+    }
+
+    .portrait {
+      width: 50vw;
+      height: 65vh;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      border: 4px solid #fff;
+      box-shadow: 0 0 20px 10px rgba(255, 105, 180, 0.5);
+      animation: glow 2s infinite ease-in-out alternate;
+    }
+
+    .portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 20px 10px rgba(255, 105, 180, 0.5);
+      }
+      100% {
+        box-shadow: 0 0 40px 20px rgba(255, 105, 180, 0.8);
+      }
+    }
+    .main-heading {
+  font-family: 'Satisfy', cursive;
+  font-size: 3rem;
+  color: #ffb6c1;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(255, 182, 193, 0.8), 0 0 20px rgba(255, 105, 180, 0.6);
+  animation: glowText 2s infinite alternate ease-in-out;
+}
+
+@keyframes glowText {
+  0% {
+    text-shadow: 0 0 10px rgba(255, 182, 193, 0.8), 0 0 20px rgba(255, 105, 180, 0.6);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(255, 182, 193, 1), 0 0 30px rgba(255, 105, 180, 0.9);
+  }
+}
+
+
+   
+.typewriter-text {
+  font-family: 'Satisfy', cursive;
+  font-size: 2rem;
+  max-width: 700px;
+  line-height: 1.5;
+}
+    .love-slider {
+  width: 100%;
+  overflow: hidden;
+  background: rgba(255, 192, 203, 0.1);
+  padding: 10px 0;
+  position: absolute;
+  bottom: 0;
+  z-index: 3;
+}
+
+.love-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: slideText 20s linear infinite;
+}
+
+.love-track span {
+  display: inline-block;
+  font-size: 1.5rem;
+  color: #ffb6c1;
+  font-weight: bold;
+  margin-right: 50px;
+  font-family: 'Great Vibes', cursive;
+  text-shadow: 0 0 5px rgba(255, 105, 180, 0.7);
+}
+
+@keyframes slideText {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+  </style>
+</head>
+<body>
+
+<canvas id="heartCanvas"></canvas>
+
+<div class="container">
+  <h1 class="main-heading">How Beuatiful Is My Radhaa.. Hayee....💕</h1>
+
+  <div class="portrait">
+    <img src="/assets/img/portrait.png" alt="My Love">
+  </div>
+  <div class="typewriter-text" id="text"></div>
+</div>
+
+<script>
+  // Typewriter effect
+  const text = "You are the light in my darkest nights, the smile in my every heartbeat. I love you ❤️";
+  let i = 0;
+  function typeWriter() {
+    if (i < text.length) {
+      document.getElementById("text").innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, 100);
+    }
+  }
+  window.onload = typeWriter;
+
+  // Canvas Heart Particles
+  const canvas = document.getElementById("heartCanvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const hearts = [];
+  const heartCount = 60;
+
+  function createHeart() {
+  return {
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size:  3 + 1,       // smaller hearts
+    speed: Math.random() * 1 + 0.5,    // slower fall
+    opacity: Math.random() * 0.5 + 0.5
+  };
+}
+
+  for (let i = 0; i < heartCount; i++) {
+    hearts.push(createHeart());
+  }
+
+  function drawHeart(x, y, size, opacity) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(size, size);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(0, -3, -5, -3, -5, 0);
+    ctx.bezierCurveTo(-5, 3, 0, 5, 0, 8);
+    ctx.bezierCurveTo(0, 5, 5, 3, 5, 0);
+    ctx.bezierCurveTo(5, -3, 0, -3, 0, 0);
+    ctx.closePath();
+    ctx.globalAlpha = opacity;
+    ctx.fillStyle = 'pink';
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function animateHearts() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let heart of hearts) {
+      drawHeart(heart.x, heart.y, heart.size, heart.opacity);
+      heart.y += heart.speed;
+      if (heart.y > canvas.height) {
+        heart.y = 0;
+        heart.x = Math.random() * canvas.width;
+      }
+    }
+    requestAnimationFrame(animateHearts);
+  }
+
+  animateHearts();
+
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
+<div class="love-slider">
+  <div class="love-track">
+    <span>I love you 💖</span>
+    <span>I miss you 😢</span>
+    <span>I want you ❤️</span>
+    <span>I respect you 🙏</span>
+    <span>I need you 💘</span>
+    <span>I care for you 🥰</span>
+    <span>You are my everything 🌹</span>
+  </div>
+</div>
+
+</body>
+</html>
